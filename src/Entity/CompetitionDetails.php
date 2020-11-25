@@ -27,11 +27,6 @@ class CompetitionDetails
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $season;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $startDate;
@@ -42,23 +37,28 @@ class CompetitionDetails
     private $endDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="competitionWon")
+     * @ORM\Column(type="string", length=255)
      */
-    private $winer;
+    private $competitionDetailsId;
 
     /**
-     * @ORM\OneToMany(targetEntity=Meeting::class, mappedBy="competitionDetails")
+     * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="competitionDetails")
      */
-    private $meetings;
+    private $winner;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Competition::class, inversedBy="competitionDetails")
+     * @ORM\ManyToOne(targetEntity=Competition::class, inversedBy="competitionsDetails")
      */
-    private $competitions;
+    private $competition;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Round::class, mappedBy="competitionDetails")
+     */
+    private $rounds;
 
     public function __construct()
     {
-        $this->meetings = new ArrayCollection();
+        $this->rounds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,18 +74,6 @@ class CompetitionDetails
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSeason(): ?string
-    {
-        return $this->season;
-    }
-
-    public function setSeason(string $season): self
-    {
-        $this->season = $season;
 
         return $this;
     }
@@ -114,56 +102,68 @@ class CompetitionDetails
         return $this;
     }
 
-    public function getWiner(): ?Team
+    public function getCompetitionDetailsId(): ?string
     {
-        return $this->winer;
+        return $this->competitionDetailsId;
     }
 
-    public function setWiner(?Team $winer): self
+    public function setCompetitionDetailsId(string $competitionDetailsId): self
     {
-        $this->winer = $winer;
+        $this->competitionDetailsId = $competitionDetailsId;
+
+        return $this;
+    }
+
+    public function getWinner(): ?Team
+    {
+        return $this->winner;
+    }
+
+    public function setWinner(?Team $winner): self
+    {
+        $this->winner = $winner;
+
+        return $this;
+    }
+
+    public function getCompetition(): ?Competition
+    {
+        return $this->competition;
+    }
+
+    public function setCompetition(?Competition $competition): self
+    {
+        $this->competition = $competition;
 
         return $this;
     }
 
     /**
-     * @return Collection|Meeting[]
+     * @return Collection|Round[]
      */
-    public function getMeetings(): Collection
+    public function getRounds(): Collection
     {
-        return $this->meetings;
+        return $this->rounds;
     }
 
-    public function addMeeting(Meeting $meeting): self
+    public function addRound(Round $round): self
     {
-        if (!$this->meetings->contains($meeting)) {
-            $this->meetings[] = $meeting;
-            $meeting->setCompetitionDetails($this);
+        if (!$this->rounds->contains($round)) {
+            $this->rounds[] = $round;
+            $round->setCompetitionDetails($this);
         }
 
         return $this;
     }
 
-    public function removeMeeting(Meeting $meeting): self
+    public function removeRound(Round $round): self
     {
-        if ($this->meetings->removeElement($meeting)) {
+        if ($this->rounds->removeElement($round)) {
             // set the owning side to null (unless already changed)
-            if ($meeting->getCompetitionDetails() === $this) {
-                $meeting->setCompetitionDetails(null);
+            if ($round->getCompetitionDetails() === $this) {
+                $round->setCompetitionDetails(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCompetitions(): ?Competition
-    {
-        return $this->competitions;
-    }
-
-    public function setCompetitions(?Competition $competitions): self
-    {
-        $this->competitions = $competitions;
 
         return $this;
     }

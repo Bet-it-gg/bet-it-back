@@ -24,20 +24,20 @@ class Meeting
     /**
      * @ORM\Column(type="date")
      */
-    private $matchDate;
+    private $meetingDate;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $idMatch;
+    private $idMeeting;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $week;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $groupName;
 
@@ -45,16 +45,6 @@ class Meeting
      * @ORM\ManyToOne(targetEntity=Competition::class, inversedBy="meetings")
      */
     private $competition;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=CompetitionDetails::class, inversedBy="meetings")
-     */
-    private $competitionDetails;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=TypeMeeting::class, inversedBy="meetings")
-     */
-    private $type;
 
     /**
      * @ORM\OneToMany(targetEntity=Game::class, mappedBy="meeting")
@@ -65,6 +55,16 @@ class Meeting
      * @ORM\OneToMany(targetEntity=Bet::class, mappedBy="meeting")
      */
     private $bets;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Round::class, inversedBy="meetings")
+     */
+    private $rounds;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
 
     public function __construct()
     {
@@ -77,26 +77,26 @@ class Meeting
         return $this->id;
     }
 
-    public function getMatchDate(): ?\DateTimeInterface
+    public function getMeetingDate(): ?\DateTimeInterface
     {
-        return $this->matchDate;
+        return $this->meetingDate;
     }
 
-    public function setMatchDate(\DateTimeInterface $matchDate): self
+    public function setMeetingDate(\DateTimeInterface $meetingDate): self
     {
-        $this->matchDate = $matchDate;
+        $this->meetingDate = $meetingDate;
 
         return $this;
     }
 
-    public function getIdMatch(): ?string
+    public function getIdMeeting(): ?string
     {
-        return $this->idMatch;
+        return $this->idMeeting;
     }
 
-    public function setIdMatch(string $idMatch): self
+    public function setIdMeeting(string $idMeeting): self
     {
-        $this->idMatch = $idMatch;
+        $this->idMeeting = $idMeeting;
 
         return $this;
     }
@@ -133,30 +133,6 @@ class Meeting
     public function setCompetition(?Competition $competition): self
     {
         $this->competition = $competition;
-
-        return $this;
-    }
-
-    public function getCompetitionDetails(): ?CompetitionDetails
-    {
-        return $this->competitionDetails;
-    }
-
-    public function setCompetitionDetails(?CompetitionDetails $competitionDetails): self
-    {
-        $this->competitionDetails = $competitionDetails;
-
-        return $this;
-    }
-
-    public function getType(): ?TypeMeeting
-    {
-        return $this->type;
-    }
-
-    public function setType(?TypeMeeting $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -217,6 +193,30 @@ class Meeting
                 $bet->setMeeting(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRounds(): ?Round
+    {
+        return $this->rounds;
+    }
+
+    public function setRounds(?Round $rounds): self
+    {
+        $this->rounds = $rounds;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

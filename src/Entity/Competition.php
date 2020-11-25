@@ -51,10 +51,15 @@ class Competition
      */
     private $competitionDetails;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CompetitionDetails::class, mappedBy="competition")
+     */
+    private $competitionsDetails;
+
     public function __construct()
     {
         $this->meetings = new ArrayCollection();
-        $this->competitionDetails = new ArrayCollection();
+        $this->competitionsDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,30 +75,6 @@ class Competition
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->endDate;
-    }
-
-    public function setEndDate(?\DateTimeInterface $endDate): self
-    {
-        $this->endDate = $endDate;
-
-        return $this;
-    }
-
-    public function getStartDate(): ?\DateTimeInterface
-    {
-        return $this->startDate;
-    }
-
-    public function setStartDate(?\DateTimeInterface $startDate): self
-    {
-        $this->startDate = $startDate;
 
         return $this;
     }
@@ -167,30 +148,31 @@ class Competition
     /**
      * @return Collection|CompetitionDetails[]
      */
-    public function getCompetitionDetails(): Collection
+    public function getCompetitionsDetails(): Collection
     {
-        return $this->competitionDetails;
+        return $this->competitionsDetails;
     }
 
-    public function addCompetitionDetail(CompetitionDetails $competitionDetail): self
+    public function addCompetitionsDetail(CompetitionDetails $competitionsDetail): self
     {
-        if (!$this->competitionDetails->contains($competitionDetail)) {
-            $this->competitionDetails[] = $competitionDetail;
-            $competitionDetail->setCompetitions($this);
+        if (!$this->competitionsDetails->contains($competitionsDetail)) {
+            $this->competitionsDetails[] = $competitionsDetail;
+            $competitionsDetail->setCompetition($this);
         }
 
         return $this;
     }
 
-    public function removeCompetitionDetail(CompetitionDetails $competitionDetail): self
+    public function removeCompetitionsDetail(CompetitionDetails $competitionsDetail): self
     {
-        if ($this->competitionDetails->removeElement($competitionDetail)) {
+        if ($this->competitionsDetails->removeElement($competitionsDetail)) {
             // set the owning side to null (unless already changed)
-            if ($competitionDetail->getCompetitions() === $this) {
-                $competitionDetail->setCompetitions(null);
+            if ($competitionsDetail->getCompetition() === $this) {
+                $competitionsDetail->setCompetition(null);
             }
         }
 
         return $this;
     }
+
 }

@@ -32,7 +32,7 @@ class Team
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imgUrl;
 
@@ -96,6 +96,11 @@ class Team
      */
     private $statistics;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CompetitionDetails::class, mappedBy="winner")
+     */
+    private $competitionDetails;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
@@ -106,6 +111,7 @@ class Team
         $this->firstBloodGames = new ArrayCollection();
         $this->forstTowerGames = new ArrayCollection();
         $this->statistics = new ArrayCollection();
+        $this->competitionDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -431,6 +437,36 @@ class Team
             // set the owning side to null (unless already changed)
             if ($statistic->getTeam() === $this) {
                 $statistic->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CompetitionDetails[]
+     */
+    public function getCompetitionDetails(): Collection
+    {
+        return $this->competitionDetails;
+    }
+
+    public function addCompetitionDetail(CompetitionDetails $competitionDetail): self
+    {
+        if (!$this->competitionDetails->contains($competitionDetail)) {
+            $this->competitionDetails[] = $competitionDetail;
+            $competitionDetail->setWinner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompetitionDetail(CompetitionDetails $competitionDetail): self
+    {
+        if ($this->competitionDetails->removeElement($competitionDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($competitionDetail->getWinner() === $this) {
+                $competitionDetail->setWinner(null);
             }
         }
 

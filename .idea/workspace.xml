@@ -2,9 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cd95da58-dd0a-4cb0-944d-5eb2534ce30b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/bet-it-back.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bet-it-back.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Competition.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Competition.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/CompetitionDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/CompetitionDetails.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Meeting.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Meeting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Team.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Team.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/TypeMeeting.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/TypeMeetingRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,6 +112,9 @@
       <path value="$PROJECT_DIR$/vendor/symfony/serializer" />
       <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-migrations-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/security-http" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-fixtures-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/data-fixtures" />
     </include_path>
   </component>
   <component name="ProjectId" id="1kTRKyzCmJARGgCxY2UvnUnFwON" />
@@ -128,11 +141,25 @@
       <updated>1605722534476</updated>
       <workItem from="1605722535659" duration="2524000" />
       <workItem from="1605782546223" duration="85000" />
-      <workItem from="1606292419544" duration="11936000" />
+      <workItem from="1606292419544" duration="32684000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1606330396757">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1606330396757" />
+    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1606321191346">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1606321191346" />
+    <state x="521" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606330393618">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="521" y="233" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1606330393618" />
   </component>
 </project>
