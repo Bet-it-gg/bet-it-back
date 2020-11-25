@@ -2,34 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cd95da58-dd0a-4cb0-944d-5eb2534ce30b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Entity/Area.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Champion.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Competition.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/CompetitionDetails.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Cote.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Game.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Meeting.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Player.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/PlayerStatistic.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Statistic.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/Team.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/TypeMeeting.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/AreaRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/ChampionRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/CompetitionDetailsRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/CompetitionRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/CoteRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/GameRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/MeetingRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/PlayerRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/PlayerStatisticRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/StatisticRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/TeamRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/TypeMeetingRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Bet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Bet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Type.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Type.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Competition.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Competition.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +128,7 @@
       <updated>1605722534476</updated>
       <workItem from="1605722535659" duration="2524000" />
       <workItem from="1605782546223" duration="85000" />
-      <workItem from="1606292419544" duration="9838000" />
+      <workItem from="1606292419544" duration="11936000" />
     </task>
     <servers />
   </component>

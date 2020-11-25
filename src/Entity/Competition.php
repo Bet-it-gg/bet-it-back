@@ -27,33 +27,34 @@ class Competition
     private $name;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $endDate;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $startDate;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Area::class, inversedBy="competitions")
      */
     private $area;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=CompetitionDetails::class, inversedBy="competitions")
-     */
-    private $competitionDetail;
 
     /**
      * @ORM\OneToMany(targetEntity=Meeting::class, mappedBy="competition")
      */
     private $meetings;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $competitionId;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $format;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CompetitionDetails::class, mappedBy="competitions")
+     */
+    private $competitionDetails;
+
     public function __construct()
     {
         $this->meetings = new ArrayCollection();
+        $this->competitionDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,18 +110,6 @@ class Competition
         return $this;
     }
 
-    public function getCompetitionDetail(): ?CompetitionDetails
-    {
-        return $this->competitionDetail;
-    }
-
-    public function setCompetitionDetail(?CompetitionDetails $competitionDetail): self
-    {
-        $this->competitionDetail = $competitionDetail;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Meeting[]
      */
@@ -145,6 +134,60 @@ class Competition
             // set the owning side to null (unless already changed)
             if ($meeting->getCompetition() === $this) {
                 $meeting->setCompetition(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCompetitionId(): ?string
+    {
+        return $this->competitionId;
+    }
+
+    public function setCompetitionId(string $competitionId): self
+    {
+        $this->competitionId = $competitionId;
+
+        return $this;
+    }
+
+    public function getFormat(): ?string
+    {
+        return $this->format;
+    }
+
+    public function setFormat(string $format): self
+    {
+        $this->format = $format;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CompetitionDetails[]
+     */
+    public function getCompetitionDetails(): Collection
+    {
+        return $this->competitionDetails;
+    }
+
+    public function addCompetitionDetail(CompetitionDetails $competitionDetail): self
+    {
+        if (!$this->competitionDetails->contains($competitionDetail)) {
+            $this->competitionDetails[] = $competitionDetail;
+            $competitionDetail->setCompetitions($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompetitionDetail(CompetitionDetails $competitionDetail): self
+    {
+        if ($this->competitionDetails->removeElement($competitionDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($competitionDetail->getCompetitions() === $this) {
+                $competitionDetail->setCompetitions(null);
             }
         }
 

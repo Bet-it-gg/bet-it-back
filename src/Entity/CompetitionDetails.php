@@ -47,18 +47,17 @@ class CompetitionDetails
     private $winer;
 
     /**
-     * @ORM\OneToMany(targetEntity=Competition::class, mappedBy="competitionDetail")
-     */
-    private $competitions;
-
-    /**
      * @ORM\OneToMany(targetEntity=Meeting::class, mappedBy="competitionDetails")
      */
     private $meetings;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Competition::class, inversedBy="competitionDetails")
+     */
+    private $competitions;
+
     public function __construct()
     {
-        $this->competitions = new ArrayCollection();
         $this->meetings = new ArrayCollection();
     }
 
@@ -128,36 +127,6 @@ class CompetitionDetails
     }
 
     /**
-     * @return Collection|Competition[]
-     */
-    public function getCompetitions(): Collection
-    {
-        return $this->competitions;
-    }
-
-    public function addCompetition(Competition $competition): self
-    {
-        if (!$this->competitions->contains($competition)) {
-            $this->competitions[] = $competition;
-            $competition->setCompetitionDetail($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCompetition(Competition $competition): self
-    {
-        if ($this->competitions->removeElement($competition)) {
-            // set the owning side to null (unless already changed)
-            if ($competition->getCompetitionDetail() === $this) {
-                $competition->setCompetitionDetail(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Meeting[]
      */
     public function getMeetings(): Collection
@@ -183,6 +152,18 @@ class CompetitionDetails
                 $meeting->setCompetitionDetails(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCompetitions(): ?Competition
+    {
+        return $this->competitions;
+    }
+
+    public function setCompetitions(?Competition $competitions): self
+    {
+        $this->competitions = $competitions;
 
         return $this;
     }
