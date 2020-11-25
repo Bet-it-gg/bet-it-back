@@ -51,6 +51,21 @@ class Bet
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Cote::class, inversedBy="bets")
+     */
+    private $cote;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="bets")
+     */
+    private $game;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Meeting::class, inversedBy="bets")
+     */
+    private $meeting;
+
     public function __construct()
     {
         $this->betChild = new ArrayCollection();
@@ -147,6 +162,42 @@ class Bet
     public function setType(?Type $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getCote(): ?Cote
+    {
+        return $this->cote;
+    }
+
+    public function setCote(?Cote $cote): self
+    {
+        $this->cote = $cote;
+
+        return $this;
+    }
+
+    public function getGame(): ?Game
+    {
+        return $this->game;
+    }
+
+    public function setGame(?Game $game): self
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    public function getMeeting(): ?Meeting
+    {
+        return $this->meeting;
+    }
+
+    public function setMeeting(?Meeting $meeting): self
+    {
+        $this->meeting = $meeting;
 
         return $this;
     }

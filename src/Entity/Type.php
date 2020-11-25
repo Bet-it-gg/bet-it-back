@@ -22,35 +22,29 @@ class Type
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $libelle;
-
-    /**
      * @ORM\OneToMany(targetEntity=Bet::class, mappedBy="type")
      */
     private $bets;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Cote::class, mappedBy="type")
+     */
+    private $cotes;
+
     public function __construct()
     {
         $this->bets = new ArrayCollection();
+        $this->cotes = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLibelle(): ?string
-    {
-        return $this->libelle;
-    }
-
-    public function setLibelle(string $libelle): self
-    {
-        $this->libelle = $libelle;
-
-        return $this;
     }
 
     /**
@@ -77,6 +71,48 @@ class Type
             // set the owning side to null (unless already changed)
             if ($bet->getType() === $this) {
                 $bet->setType(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cote[]
+     */
+    public function getCotes(): Collection
+    {
+        return $this->cotes;
+    }
+
+    public function addCote(Cote $cote): self
+    {
+        if (!$this->cotes->contains($cote)) {
+            $this->cotes[] = $cote;
+            $cote->setType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCote(Cote $cote): self
+    {
+        if ($this->cotes->removeElement($cote)) {
+            // set the owning side to null (unless already changed)
+            if ($cote->getType() === $this) {
+                $cote->setType(null);
             }
         }
 
