@@ -76,6 +76,16 @@ class Game
      */
     private $bets;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $gameId;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $gameNumber;
+
     public function __construct()
     {
         $this->statistics = new ArrayCollection();
@@ -289,6 +299,30 @@ class Game
                 $bet->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGameId(): ?string
+    {
+        return $this->gameId;
+    }
+
+    public function setGameId(string $gameId): self
+    {
+        $this->gameId = $gameId;
+
+        return $this;
+    }
+
+    public function getGameNumber(): ?int
+    {
+        return $this->gameNumber;
+    }
+
+    public function setGameNumber(int $gameNumber): self
+    {
+        $this->gameNumber = $gameNumber;
 
         return $this;
     }

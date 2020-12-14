@@ -40,7 +40,7 @@ class AppFixtures extends Fixture
 
         $em->flush();
 
-        // -----------------------------Competition & Competition Details------------------------------------------------------
+        // -----------------------------Competition & Competition Details & Rounds ------------------------------------------------------
 
         $req = [
             "http" => [
