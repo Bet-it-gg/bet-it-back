@@ -22,11 +22,6 @@ class Game
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $timeDuration;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Team::class, inversedBy="gamesAsTeamOne")
      */
     private $teamOne;
@@ -77,11 +72,6 @@ class Game
     private $bets;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $gameId;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $gameNumber;
@@ -97,18 +87,6 @@ class Game
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTimeDuration(): ?\DateTimeInterface
-    {
-        return $this->timeDuration;
-    }
-
-    public function setTimeDuration(\DateTimeInterface $timeDuration): self
-    {
-        $this->timeDuration = $timeDuration;
-
-        return $this;
     }
 
     public function getTeamOne(): ?Team
@@ -299,18 +277,6 @@ class Game
                 $bet->setGame(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getGameId(): ?string
-    {
-        return $this->gameId;
-    }
-
-    public function setGameId(string $gameId): self
-    {
-        $this->gameId = $gameId;
 
         return $this;
     }

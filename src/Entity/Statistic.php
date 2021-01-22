@@ -79,6 +79,61 @@ class Statistic
      */
     private $team;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $FirstBlood;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $FirstTower;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $FirstInhibitor;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $FirstBaron;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $FirstDragon;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $FirstRiftHerald;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $PentaKills;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $TotalDamageDealtToChampions;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $WardsPlaced;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $WardsKilled;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $fantasyPoints;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -224,6 +279,138 @@ class Statistic
     public function setTeam(?Team $team): self
     {
         $this->team = $team;
+
+        return $this;
+    }
+
+    public function getFirstBlood(): ?bool
+    {
+        return $this->FirstBlood;
+    }
+
+    public function setFirstBlood(?bool $FirstBlood): self
+    {
+        $this->FirstBlood = $FirstBlood;
+
+        return $this;
+    }
+
+    public function getFirstTower(): ?bool
+    {
+        return $this->FirstTower;
+    }
+
+    public function setFirstTower(?bool $FirstTower): self
+    {
+        $this->FirstTower = $FirstTower;
+
+        return $this;
+    }
+
+    public function getFirstInhibitor(): ?bool
+    {
+        return $this->FirstInhibitor;
+    }
+
+    public function setFirstInhibitor(?bool $FirstInhibitor): self
+    {
+        $this->FirstInhibitor = $FirstInhibitor;
+
+        return $this;
+    }
+
+    public function getFirstBaron(): ?bool
+    {
+        return $this->FirstBaron;
+    }
+
+    public function setFirstBaron(?bool $FirstBaron): self
+    {
+        $this->FirstBaron = $FirstBaron;
+
+        return $this;
+    }
+
+    public function getFirstDragon(): ?bool
+    {
+        return $this->FirstDragon;
+    }
+
+    public function setFirstDragon(?bool $FirstDragon): self
+    {
+        $this->FirstDragon = $FirstDragon;
+
+        return $this;
+    }
+
+    public function getFirstRiftHerald(): ?bool
+    {
+        return $this->FirstRiftHerald;
+    }
+
+    public function setFirstRiftHerald(?bool $FirstRiftHerald): self
+    {
+        $this->FirstRiftHerald = $FirstRiftHerald;
+
+        return $this;
+    }
+
+    public function getPentaKills(): ?bool
+    {
+        return $this->PentaKills;
+    }
+
+    public function setPentaKills(?bool $PentaKills): self
+    {
+        $this->PentaKills = $PentaKills;
+
+        return $this;
+    }
+
+    public function getTotalDamageDealtToChampions(): ?float
+    {
+        return $this->TotalDamageDealtToChampions;
+    }
+
+    public function setTotalDamageDealtToChampions(?float $TotalDamageDealtToChampions): self
+    {
+        $this->TotalDamageDealtToChampions = $TotalDamageDealtToChampions;
+
+        return $this;
+    }
+
+    public function getWardsPlaced(): ?float
+    {
+        return $this->WardsPlaced;
+    }
+
+    public function setWardsPlaced(float $WardsPlaced): self
+    {
+        $this->WardsPlaced = $WardsPlaced;
+
+        return $this;
+    }
+
+    public function getWardsKilled(): ?float
+    {
+        return $this->WardsKilled;
+    }
+
+    public function setWardsKilled(?float $WardsKilled): self
+    {
+        $this->WardsKilled = $WardsKilled;
+
+        return $this;
+    }
+
+    public function getFantasyPoints(): ?float
+    {
+        return $this->fantasyPoints;
+    }
+
+    public function setFantasyPoints(?float $fantasyPoints): self
+    {
+        $this->fantasyPoints = $fantasyPoints;
 
         return $this;
     }

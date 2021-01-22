@@ -21,7 +21,7 @@ class AppFixtures extends Fixture
         $req = [
             "http" => [
                 "method" => "GET",
-                "header" => "Ocp-Apim-Subscription-Key: edb599ba46e3455f8139cee8cb4434f2\r\n"
+                "header" => "Ocp-Apim-Subscription-Key: d4fb09535ff74d4bae5bf536e7ab2363\r\n"
             ]
         ];
 
@@ -45,7 +45,7 @@ class AppFixtures extends Fixture
         $req = [
             "http" => [
                 "method" => "GET",
-                "header" => "Ocp-Apim-Subscription-Key: edb599ba46e3455f8139cee8cb4434f2\r\n"
+                "header" => "Ocp-Apim-Subscription-Key: d4fb09535ff74d4bae5bf536e7ab2363\r\n"
             ]
         ];
 
@@ -95,7 +95,7 @@ class AppFixtures extends Fixture
         $req = [
             "http" => [
                 "method" => "GET",
-                "header" => "Ocp-Apim-Subscription-Key: edb599ba46e3455f8139cee8cb4434f2\r\n"
+                "header" => "Ocp-Apim-Subscription-Key: d4fb09535ff74d4bae5bf536e7ab2363\r\n"
             ]
         ];
 
@@ -123,14 +123,14 @@ class AppFixtures extends Fixture
 
         // -----------------------------Meeting------------------------------------------------------
 
-        set_time_limit(200000000000000);
+        set_time_limit(-1);
 
-        $em = $this->getDoctrine()->getManager();
+        //$em = $this->getDoctrine()->getManager();
 
         $req = [
             "http" => [
                 "method" => "GET",
-                "header" => "Ocp-Apim-Subscription-Key: edb599ba46e3455f8139cee8cb4434f2\r\n"
+                "header" => "Ocp-Apim-Subscription-Key: d4fb09535ff74d4bae5bf536e7ab2363\r\n"
             ]
         ];
 
@@ -151,6 +151,7 @@ class AppFixtures extends Fixture
                 $newMeeting->setWeek($games["Week"] ? $games["Week"] : '' );
                 $newMeeting->setMeetingDate(new \DateTime($games["Day"]));
                 $newMeeting->setGroupName($games["Group"] ? $games["Group"] : '' );
+                $newMeeting->setCompetition($competition );
                 $newMeeting->setRounds($em->getRepository(Round::class)->findOneBy(["RoundId" => $games["RoundId"]]));
 
                 $em->persist($newMeeting);

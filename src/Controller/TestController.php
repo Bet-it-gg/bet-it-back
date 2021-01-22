@@ -6,8 +6,10 @@ use App\Entity\Area;
 use App\Entity\Competition;
 use App\Entity\CompetitionDetails;
 use App\Entity\Meeting;
+use App\Entity\Game;
 use App\Entity\Player;
 use App\Entity\Round;
+use App\Entity\Statistic;
 use App\Entity\Team;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,92 +23,160 @@ class TestController extends AbstractController
      */
     public function index()
     {
-        //set_time_limit(-1);
+        set_time_limit(-1);
 
         $em = $this->getDoctrine()->getManager();
 
-        $req = [
-            "http" => [
-                "method" => "GET",
-                "header" => "Ocp-Apim-Subscription-Key: edb599ba46e3455f8139cee8cb4434f2\r\n"
-            ]
+        $arrayKeyByCompetition = [
+            "LMS" => "707d3ac2a8f343ba82174f00e5742364",
+            "LEC" => "2c3cc58e059e4e20a53ddcac1df0a300",
+            "LJL" => "6c00851f9e3047c9aa939fb7a35ac264",
+            "LCK" => "e0388a081809409391d0fbfa34549210",
+            "NA LCS" => "b61b48c05a9d41cb8deeb5b5bd96a552",
+            "World Championship" => "da152a1cd2bb459ba290997a5bdd2b48",
+            "Mid-Season Invitational" => "233320e0171a40c88f0ca859c6aa0444",
+            "Rift Rivals" => "a96b49f385ed4d1ab79f090dee897ff6",
+            "CBLOL" => "de5cf1a1c5e744d7b39747640848632a",
+            "OPL" => "d11eb5f7a7ef4eb0b82d67e3f9c6c818",
+            "TCL" => "f32a7c38e3c64642986103c8b158f309",
+            "LPL" => "4184dd174a2d45af9688bdf48a7d1526",
+            "European Masters" => "84812f71130f4026af6339cc5c3e0753",
         ];
 
-        $meetings = $em->getRepository(Meeting::class)->findAll();
+        $competitions = $em->getRepository(Competition::class)->findAll();
 
-        foreach ($meetings as $meeting){
+        foreach ($competitions as  $competition){
 
-            $context = stream_context_create($req);
-            $json = file_get_contents('https://api.sportsdata.io/v3/lol/stats/json/BoxScore/100004150', false, $context);
-            //$meeting->getIdMeeting();
+            $meetings = $competition->getMeetings();
 
-            $data = json_decode($json,true);
+            foreach ($meetings as $meeting){
 
 
-            foreach ($data["Matches"] as $match){
-
-                $newGame = new Game;
-                $newGame->setMeeting($meeting);
-                $newGame->setGameNumber($match["Number"]);
-                $newGame->setWinner($em->getRepository(Team::class)->findOneBy(["teamId" => $match["WinningTeamId"]]));
-                $newGame->setTeamOne($em->getRepository(Team::class)->findOneBy(["teamId" => $match["TeamAId"]]));
-                $newGame->setTeamTwo($em->getRepository(Team::class)->findOneBy(["teamId" => $match["TeamBId"]]));
-
-                //Statisctic
-                //Todo "PlayerMatches"
-                //Todo "TeamMatches"
+                //Todo faire des paquets pour flush
+                $req = [
+                    "http" => [
+                        "method" => "GET",
+                        "header" => "Ocp-Apim-Subscription-Key: ".$arrayKeyByCompetition[$competition->getName()]."\r\n"
+                    ]
+                ];
 
 
+                $context = stream_context_create($req);
+                $json = file_get_contents('https://api.sportsdata.io/v3/lol/stats/json/BoxScore/' . $meeting->getIdMeeting(), false, $context);
+                $data = json_decode($json, true);
 
+                //dd($data);
+                foreach ($data[0]["Matches"] as $match) {
+
+                    $newGame = new Game;
+                    dd($match);
+
+                    $teamA = $em->getRepository(Team::class)->findOneBy(["teamId" => $data[0]["Game"]["TeamAId"]]);
+                    $teamB = $em->getRepository(Team::class)->findOneBy(["teamId" => $data[0]["Game"]["TeamBId"]]);
+                    $newGame->setTeamOne($teamA);
+                    $newGame->setTeamTwo($teamB);
+
+                    $newGame->setMeeting($meeting);
+                    $newGame->setGameNumber($match["Number"]);
+
+                    dd($match["WinningTeamId"], $teamA, $teamB );
+                    $newGame->setWinner($em->getRepository(Team::class)->findOneBy(["teamId" => $match["WinningTeamId"]]));
+                    $newGame->setWinner($em->getRepository(Team::class)->findOneBy(["teamId" => $match["WinningTeamId"]]));
+
+                    $em->persist($newGame);
+
+                    //Statisctic
+                    //Todo "PlayerMatches" make player Table script befor
+
+                    //Todo "TeamMatches"
+                    foreach ($match["TeamMatches"] as $teamMatch) {
+                        $newGameStatistic = new Statistic;
+                        $newGameStatistic->setGame($newGame);
+                        $newGameStatistic->setTeam($em->getRepository(Team::class)->findOneBy(["teamId" => $teamMatch["TeamId"]]));
+                        $newGameStatistic->setKills($teamMatch["Kills"]);
+                        $newGameStatistic->setAssists($teamMatch["Assists"]);
+                        $newGameStatistic->setDeaths($teamMatch["Deaths"]);
+                        $newGameStatistic->setFirstBlood($teamMatch["FirstBlood"]);
+                        $newGameStatistic->setFirstTower($teamMatch["FirstTower"]);
+                        $newGameStatistic->setFirstInhibitor($teamMatch["FirstInhibitor"]);
+                        $newGameStatistic->setFirstBaron($teamMatch["FirstBaron"]);
+                        $newGameStatistic->setFirstDragon($teamMatch["FirstDragon"]);
+                        $newGameStatistic->setFirstRiftHerald($teamMatch["FirstRiftHerald"]);
+                        $newGameStatistic->setPentaKills($teamMatch["PentaKills"]);
+                        $newGameStatistic->setWardsPlaced($teamMatch["WardsPlaced"] ? $teamMatch["WardsPlaced"] : 0);
+                        $newGameStatistic->setWardsKilled($teamMatch["WardsKilled"]);
+                        $newGameStatistic->setTotalDamageDealtToChampions($teamMatch["TotalDamageDealtToChampions"]);
+                        $newGameStatistic->setFantasyPoints($teamMatch["FantasyPoints"]);
+
+                        $em->persist($newGameStatistic);
+                        $newGame->addStatistic($newGameStatistic);
+                    }
+                    //$em->persist($newGame);
+                    dd($newGame);
+//                    $em->flush();
+//                    $em->clear();
+//
+
+                }
             }
+        }
 
 
 
-//            $req = [
-//                "http" => [
-//                    "method" => "GET",
-//                    "header" => "Ocp-Apim-Subscription-Key: edb599ba46e3455f8139cee8cb4434f2\r\n"
-//                ]
-//            ];
-//
-//            $competitionsDetails = $em->getRepository(CompetitionDetails::class)->findAll();
-//
-//            foreach ($competitionsDetails as $competitionsDetail){
-//
-//                $context = stream_context_create($req);
-//                $json = file_get_contents('https://api.sportsdata.io/v3/lol/scores/json/CompetitionDetails/'.$competitionsDetail->getCompetitionDetailsId(), false, $context);
-//                $data = json_decode($json,true);
-            //$dateOfGame
-
-
-//            foreach ($data["Teams"] as $team){
+//---------------------------------------------------------------------------------------------------Players DATA apres table Game
+//        $req = [
+//            "http" => [
+//                "method" => "GET",
+//                "header" => "Ocp-Apim-Subscription-Key: 2c3cc58e059e4e20a53ddcac1df0a300\r\n"
+//            ]
+//        ];
 //
 //
-//                $teamObject = $em->getRepository(Team::class)->findOneBy(["teamId" => $team["TeamId"]]);
-//                foreach ($team["Players"] as $player) {
-////                    $existPlayer = find by idPlayer
-////
-////                    if($existPlayer) {
+//        $context = stream_context_create($req);
+//        $json = file_get_contents('https://api.sportsdata.io/v3/lol/scores/json/ActiveMemberships', false, $context);
+//        $dataActiveMemberShip = json_decode($json, true);
 //
-//                    $newPlayer = new Player();
-//                    $newPlayer->setPlayerId($player["PlayerId"]);
-//                    $newPlayer->setPlayerName($player["MatchName"]);
-//                    $newPlayer->setRole($player["Position"]);
+//        $reqPlayer = [
+//            "http" => [
+//                "method" => "GET",
+//                "header" => "Ocp-Apim-Subscription-Key: 2c3cc58e059e4e20a53ddcac1df0a300\r\n"
+//            ]
+//        ];
+//        $contextPlayers = stream_context_create($reqPlayer);
+//        $jsonPlayers = file_get_contents('https://api.sportsdata.io/v3/lol/scores/json/Players', false, $contextPlayers);
+//        $dataPlayers = json_decode($jsonPlayers, true);
 //
-//                    $teamObject->addPlayer($newPlayer);
-//                    $em->persist($newPlayer);
-//                    $em->persist($teamObject);
+//        //dd($data);
 //
-//                //}
-//                }
+//        foreach ($dataActiveMemberShip as $player) {
 //
-//                dd($teamObject);
-
-                $em->flush();
-            }
-
-
-
+//            $teamObject = $em->getRepository(Team::class)->findOneBy(["teamId" => $player["TeamId"]]);
+//
+//            $newPlayer = new Player();
+//            $newPlayer->setPlayerId($player["PlayerId"]);
+//            $newPlayer->setTeam($teamObject);
+//
+//            $arrPlayer = array_search($player["PlayerId"], $dataPlayers);
+//
+//            dd($dataPlayers, $arrPlayer);
+//            $newPlayer->setPlayerName($dataPlayers["MatchName"]);
+//            $newPlayer->setRole($dataPlayers["Position"]);
+//
+//
+//            $em->persist($newPlayer);
+//            $em->persist($teamObject);
+//
+//            $newPlayer->setPlayerName($dataPlayers["MatchName"]);
+//
+//                $newPlayer->setRole($dataPlayer["Position"] ? strval($dataPlayer["Position"]) : null);
+//                $teamObject->addPlayer($newPlayer);
+//                $em->persist($newPlayer);
+//                $em->persist($teamObject);
+//
+//
+//                $em->flush();
+//
+//        }
         dd("ok");
 
     }

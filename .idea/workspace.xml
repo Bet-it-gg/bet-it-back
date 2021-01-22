@@ -3,8 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="cd95da58-dd0a-4cb0-944d-5eb2534ce30b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TestController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Game.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Game.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Player.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Player.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Statistic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Statistic.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,6 +108,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/debug-bundle" />
       <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-fixtures-bundle" />
       <path value="$PROJECT_DIR$/vendor/doctrine/data-fixtures" />
+      <path value="$PROJECT_DIR$/vendor/symfony/dom-crawler" />
     </include_path>
   </component>
   <component name="ProjectId" id="1kTRKyzCmJARGgCxY2UvnUnFwON" />
@@ -118,7 +122,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php.debug" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -133,6 +137,8 @@
       <workItem from="1605782546223" duration="85000" />
       <workItem from="1606292419544" duration="34716000" />
       <workItem from="1607448200642" duration="9190000" />
+      <workItem from="1608107009200" duration="24139000" />
+      <workItem from="1611131403679" duration="38689000" />
     </task>
     <servers />
   </component>
@@ -148,17 +154,39 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/-1920.130.1920.1040@0.0.1920.1040" timestamp="1607448553292" />
+    <state x="2692" y="222" key="RollbackChangesDialog" timestamp="1611321557142">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2692" y="222" key="RollbackChangesDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1611321557142" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1611308800886">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611308800886" />
     <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1607448553292">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1920.1040/-1920.130.1920.1040@0.0.1920.1040" timestamp="1607448553292" />
-    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1606321191346">
+    <state x="2012" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1611314126637">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2012" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1611314126637" />
+    <state x="700" y="0" width="1024" height="739" key="dock-window-1" timestamp="1611137732750">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="700" y="0" width="1024" height="739" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1611137732750" />
+    <state x="2848" y="0" width="1008" height="997" key="dock-window-2" timestamp="1611159540209">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2848" y="0" width="1008" height="997" key="dock-window-2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1611159540209" />
+    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1608123636629">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1606321191346" />
-    <state x="521" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1606330393618">
+    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.130.1920.1040@0.0.1920.1040" timestamp="1608123636629" />
+    <state x="521" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1608120196662">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="521" y="233" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1606330393618" />
+    <state x="521" y="233" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.130.1920.1040@0.0.1920.1040" timestamp="1608120196662" />
   </component>
 </project>

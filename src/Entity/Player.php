@@ -22,12 +22,12 @@ class Player
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $playerName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $role;
 
@@ -73,7 +73,7 @@ class Player
         return $this->role;
     }
 
-    public function setRole(string $role): self
+    public function setRole(?string $role): self
     {
         $this->role = $role;
 
