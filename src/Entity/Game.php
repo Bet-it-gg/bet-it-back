@@ -47,7 +47,7 @@ class Game
     private $firstTower;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Meeting::class, inversedBy="games")
+     * @ORM\ManyToOne(targetEntity=Meeting::class, inversedBy="games", cascade={"persist"})
      */
     private $meeting;
 

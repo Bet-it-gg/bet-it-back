@@ -32,7 +32,7 @@ class Competition
     private $area;
 
     /**
-     * @ORM\OneToMany(targetEntity=Meeting::class, mappedBy="competition")
+     * @ORM\OneToMany(targetEntity=Meeting::class, mappedBy="competition", cascade={"persist"})
      */
     private $meetings;
 

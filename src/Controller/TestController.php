@@ -27,9 +27,10 @@ class TestController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
 
+//Todo Opti : bouclé sur le tableau, faire une requete par compétition pour les meetings puis clear $em
         $arrayKeyByCompetition = [
-            "LMS" => "707d3ac2a8f343ba82174f00e5742364",
-            "LEC" => "2c3cc58e059e4e20a53ddcac1df0a300",
+            "LMS" => "84812f71130f4026af6339cc5c3e0753",
+            "LEC" => "475660721da1471089201ab76f196fe8",
             "LJL" => "6c00851f9e3047c9aa939fb7a35ac264",
             "LCK" => "e0388a081809409391d0fbfa34549210",
             "NA LCS" => "b61b48c05a9d41cb8deeb5b5bd96a552",
@@ -49,14 +50,14 @@ class TestController extends AbstractController
 
             $meetings = $competition->getMeetings();
 
-            foreach ($meetings as $meeting){
+            foreach ($meetings as $meeting) {
 
 
                 //Todo faire des paquets pour flush
                 $req = [
                     "http" => [
                         "method" => "GET",
-                        "header" => "Ocp-Apim-Subscription-Key: ".$arrayKeyByCompetition[$competition->getName()]."\r\n"
+                        "header" => "Ocp-Apim-Subscription-Key: " . $arrayKeyByCompetition[$competition->getName()] . "\r\n"
                     ]
                 ];
 
@@ -65,61 +66,78 @@ class TestController extends AbstractController
                 $json = file_get_contents('https://api.sportsdata.io/v3/lol/stats/json/BoxScore/' . $meeting->getIdMeeting(), false, $context);
                 $data = json_decode($json, true);
 
-                //dd($data);
-                foreach ($data[0]["Matches"] as $match) {
 
-                    $newGame = new Game;
-                    dd($match);
+                if (!empty($data[0]["Matches"])) {
+                    foreach ($data[0]["Matches"] as $match) {
+                        $newGame = new Game;
 
-                    $teamA = $em->getRepository(Team::class)->findOneBy(["teamId" => $data[0]["Game"]["TeamAId"]]);
-                    $teamB = $em->getRepository(Team::class)->findOneBy(["teamId" => $data[0]["Game"]["TeamBId"]]);
-                    $newGame->setTeamOne($teamA);
-                    $newGame->setTeamTwo($teamB);
 
-                    $newGame->setMeeting($meeting);
-                    $newGame->setGameNumber($match["Number"]);
+                        $teamA = $em->getRepository(Team::class)->findOneBy(["teamId" => $data[0]["Game"]["TeamAId"]]);
+                        $teamB = $em->getRepository(Team::class)->findOneBy(["teamId" => $data[0]["Game"]["TeamBId"]]);
+                        $newGame->setTeamOne($teamA);
+                        $newGame->setTeamTwo($teamB);
 
-                    dd($match["WinningTeamId"], $teamA, $teamB );
-                    $newGame->setWinner($em->getRepository(Team::class)->findOneBy(["teamId" => $match["WinningTeamId"]]));
-                    $newGame->setWinner($em->getRepository(Team::class)->findOneBy(["teamId" => $match["WinningTeamId"]]));
+                        $newGame->setMeeting($meeting);
+                        $newGame->setGameNumber($match["Number"]);
 
-                    $em->persist($newGame);
+//                        dd($match["WinningTeamId"], $teamA, $teamB );
+                        $newGame->setWinner($em->getRepository(Team::class)->findOneBy(["teamId" => $match["WinningTeamId"]]));
+                        //$newGame->setWinner($em->getRepository(Team::class)->findOneBy(["teamId" => $match["WinningTeamId"]]));
 
-                    //Statisctic
-                    //Todo "PlayerMatches" make player Table script befor
+                        $em->persist($newGame);
 
-                    //Todo "TeamMatches"
-                    foreach ($match["TeamMatches"] as $teamMatch) {
-                        $newGameStatistic = new Statistic;
-                        $newGameStatistic->setGame($newGame);
-                        $newGameStatistic->setTeam($em->getRepository(Team::class)->findOneBy(["teamId" => $teamMatch["TeamId"]]));
-                        $newGameStatistic->setKills($teamMatch["Kills"]);
-                        $newGameStatistic->setAssists($teamMatch["Assists"]);
-                        $newGameStatistic->setDeaths($teamMatch["Deaths"]);
-                        $newGameStatistic->setFirstBlood($teamMatch["FirstBlood"]);
-                        $newGameStatistic->setFirstTower($teamMatch["FirstTower"]);
-                        $newGameStatistic->setFirstInhibitor($teamMatch["FirstInhibitor"]);
-                        $newGameStatistic->setFirstBaron($teamMatch["FirstBaron"]);
-                        $newGameStatistic->setFirstDragon($teamMatch["FirstDragon"]);
-                        $newGameStatistic->setFirstRiftHerald($teamMatch["FirstRiftHerald"]);
-                        $newGameStatistic->setPentaKills($teamMatch["PentaKills"]);
-                        $newGameStatistic->setWardsPlaced($teamMatch["WardsPlaced"] ? $teamMatch["WardsPlaced"] : 0);
-                        $newGameStatistic->setWardsKilled($teamMatch["WardsKilled"]);
-                        $newGameStatistic->setTotalDamageDealtToChampions($teamMatch["TotalDamageDealtToChampions"]);
-                        $newGameStatistic->setFantasyPoints($teamMatch["FantasyPoints"]);
+                        //Statisctic
+                        //Todo "PlayerMatches" make player Table script befor
 
-                        $em->persist($newGameStatistic);
-                        $newGame->addStatistic($newGameStatistic);
-                    }
-                    //$em->persist($newGame);
-                    dd($newGame);
-//                    $em->flush();
-//                    $em->clear();
+                        //Todo "TeamMatches"
+                        foreach ($match["TeamMatches"] as $teamMatch) {
+                            $newGameStatistic = new Statistic;
+                            $newGameStatistic->setGame($newGame);
+                            $newGameStatistic->setTeam($em->getRepository(Team::class)->findOneBy(["teamId" => $teamMatch["TeamId"]]));
+                            $newGameStatistic->setKills($teamMatch["Kills"]);
+                            $newGameStatistic->setAssists($teamMatch["Assists"]);
+                            $newGameStatistic->setDeaths($teamMatch["Deaths"]);
+                            $newGameStatistic->setFirstBlood($teamMatch["FirstBlood"]);
+                            $newGameStatistic->setFirstTower($teamMatch["FirstTower"]);
+                            $newGameStatistic->setFirstInhibitor($teamMatch["FirstInhibitor"]);
+                            $newGameStatistic->setFirstBaron($teamMatch["FirstBaron"]);
+                            $newGameStatistic->setFirstDragon($teamMatch["FirstDragon"]);
+                            $newGameStatistic->setFirstRiftHerald($teamMatch["FirstRiftHerald"]);
+                            $newGameStatistic->setPentaKills($teamMatch["PentaKills"]);
+                            $newGameStatistic->setWardsPlaced($teamMatch["WardsPlaced"] ? $teamMatch["WardsPlaced"] : 0);
+                            $newGameStatistic->setWardsKilled($teamMatch["WardsKilled"]);
+                            $newGameStatistic->setTotalDamageDealtToChampions($teamMatch["TotalDamageDealtToChampions"]);
+                            $newGameStatistic->setFantasyPoints($teamMatch["FantasyPoints"]);
+
+                            $em->persist($newGameStatistic);
+                            $newGame->addStatistic($newGameStatistic);
+                        }
+                        $em->persist($newGame);
+//                        dd($newGame);
+                        $em->flush();
+                        //$em->clear();
 //
 
+                    }
                 }
+//               else {
+//                    dd("ok");
+//                    $newGame = new Game;
+//                    dd($match);
+//
+//                    $teamA = $em->getRepository(Team::class)->findOneBy(["teamId" => $data[0]["Game"]["TeamAId"]]);
+//                    $teamB = $em->getRepository(Team::class)->findOneBy(["teamId" => $data[0]["Game"]["TeamBId"]]);
+//                    $newGame->setTeamOne($teamA);
+//                    $newGame->setTeamTwo($teamB);
+//
+//                    $newGame->setMeeting($meeting);
+//
+//                    $em->persist($newGame);
+//                }
             }
+            $em->clear();
         }
+    }
 
 
 
@@ -177,7 +195,7 @@ class TestController extends AbstractController
 //                $em->flush();
 //
 //        }
-        dd("ok");
+//        dd("ok");
 
-    }
+
 }

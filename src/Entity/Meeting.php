@@ -42,7 +42,7 @@ class Meeting
     private $groupName;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Competition::class, inversedBy="meetings")
+     * @ORM\ManyToOne(targetEntity=Competition::class, inversedBy="meetings",cascade={"persist"})
      */
     private $competition;
 
