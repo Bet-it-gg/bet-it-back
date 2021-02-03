@@ -39,6 +39,7 @@ class AppFixtures extends Fixture
         }
 
         $em->flush();
+        $em->clear();
 
         // -----------------------------Competition & Competition Details & Rounds ------------------------------------------------------
 
@@ -88,6 +89,7 @@ class AppFixtures extends Fixture
                 }
             }
             $em->flush();
+            $em->clear();
         }
 
 
@@ -118,6 +120,7 @@ class AppFixtures extends Fixture
         }
 
         $em->flush();
+        $em->clear();
 
 
 
@@ -159,6 +162,7 @@ class AppFixtures extends Fixture
             }
 
             $em->flush();
+            $em->clear();
         }
 
     }
