@@ -13,8 +13,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource( 
- * itemOperations={
- *      "post"={"security"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')"},
+ *  collectionOperations={
+ *      "post"={"security"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')"}
+ *  },
+ *  itemOperations={
+ *      "get"={"path"="users/{id}","security"="is_granted('ROLE_USER')"},
+ *      "put"={"path"="users/{id}","security"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')"},
+ *      "delete"={"path"="users/{id}","security"="is_granted('ROLE_USER')"},
  *     },
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -56,6 +61,31 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private string $lastName;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $betties;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pseudo;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $PhoneNumber;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $sexe;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $birthday;
 
 
     public function getId(): ?int
@@ -131,6 +161,66 @@ class User implements UserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getBetties(): ?int
+    {
+        return $this->betties;
+    }
+
+    public function setBetties(?int $betties): self
+    {
+        $this->betties = $betties;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->PhoneNumber;
+    }
+
+    public function setPhoneNumber(string $PhoneNumber): self
+    {
+        $this->PhoneNumber = $PhoneNumber;
+
+        return $this;
+    }
+
+    public function getSexe(): ?string
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(string $sexe): self
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getBirthday(): ?\DateTimeInterface
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(\DateTimeInterface $birthday): self
+    {
+        $this->birthday = $birthday;
 
         return $this;
     }
