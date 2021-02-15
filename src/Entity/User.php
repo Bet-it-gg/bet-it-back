@@ -12,7 +12,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource( 
+ * itemOperations={
+ *      "post"={"security"="is_granted('IS_AUTHENTICATED_ANONYMOUSLY')"},
+ *     },
+ * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  * @UniqueEntity("email")
