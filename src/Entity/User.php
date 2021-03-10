@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 //use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 //use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -32,58 +34,84 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups("user:read")
      */
     private string $id;
 
     /**
      * @ORM\Column(name="email", type="string", length=191, unique=true)
      * @Assert\Email
+     * 
+     * @Groups({"user:read", "user:write"})
      */
     private string $email;
 
     /**
+     * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private string $password;
 
     /**
+     * @Groups("user:write")
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(type="array")
      * @var array<string>
+     * 
+     * @Groups("user:read")
      */
     private array $roles;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups({"user:read", "user:write"})
      */
     private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups({"user:read", "user:write"})
      */
     private string $lastName;
 
     /**
      * @ORM\Column(type="integer")
+     * 
+     * @Groups({"user:read", "user:write"})
      */
     private $betties;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     *  @Groups({"user:read", "user:write"})
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     *  @Groups({"user:read", "user:write"})
      */
     private $PhoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     *  @Groups({"user:read", "user:write"})
      */
     private $sexe;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
+     *  @Groups({"user:read", "user:write"})
      */
     private $birthday;
 
@@ -126,6 +154,16 @@ class User implements UserInterface
         $this->password = $password;
     }
 
+    public function getplainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setplainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
     public function getUsername()
     {
         return $this->email;
@@ -138,7 +176,8 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-        // nothing to do since plain password is not stored
+        $this->plainPassword = null;
+
     }
 
     public function getFirstName(): ?string
