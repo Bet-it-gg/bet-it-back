@@ -8,6 +8,7 @@ use App\Entity\CompetitionDetails;
 use App\Entity\Meeting;
 use App\Entity\Game;
 use App\Entity\Player;
+use App\Entity\Role;
 use App\Entity\Round;
 use App\Entity\Statistic;
 use App\Entity\Team;
@@ -23,9 +24,9 @@ class TestController extends AbstractController
      */
     public function index()
     {
-           set_time_limit(-1);
+        set_time_limit(-1);
 
-           $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         /*
            //Todo Opti : bouclé sur le tableau, faire une requete par compétition pour les meetings puis clear $em
                    $arrayKeyByCompetition = [
@@ -197,33 +198,8 @@ class TestController extends AbstractController
 //        }
 //        dd("ok");
 
-        $req = [
-            "http" => [
-                "method" => "GET",
-            ]
-        ];
 
-
-        $context = stream_context_create($req);
-        $json = file_get_contents('https://lol.gamepedia.com/Special:CargoExport?tables=Teams&&fields=Name+%2C+OverviewPage+%2C+Short+%2C+Location+%2C+TeamLocation+%2C+Region+%2C+Image+%2C+Teams.IsDisbanded%2C+Teams.IsLowercase%2C+Teams.RenamedTo%2C&where=Teams.IsDisbanded+%3D+0&order+by=%60Name%60%2C%60OverviewPage%60%2C%60Short%60%2C%60Location%60%2C%60TeamLocation%60&limit=10000000000000000000000000000000000000000000&format=json');
-        $data = json_decode($json, true);
-
-        foreach ($data as $team){
-            $newTeam = new Team();
-            $newTeam->setName($team["Name"]);
-            //$newTeam->setTeamId($team["TeamId"]);
-            $teamNameReplaced = str_replace(" ", "_", $team["Name"]);
-            $newTeam->setImgUrl($team["Name"] ? "https://lol.gamepedia.com/File:" . $teamNameReplaced . "logo_square.png" : "");
-            // $newTeam->setArea($em->getRepository(Area::class)->findOneBy(["areaId" => $team["AreaId"]]));
-            $newTeam->setShortName($team["Short"]);
-            $newTeam->setIsActive(1);
-
-            $em->persist($newTeam);
-        }
-
-        $em->flush();
-        $em->clear();
 
         dd("ok");
-}
+    }
 }

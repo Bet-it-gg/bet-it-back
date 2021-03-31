@@ -6,6 +6,8 @@ use App\Entity\Area;
 use App\Entity\Competition;
 use App\Entity\CompetitionDetails;
 use App\Entity\Meeting;
+use App\Entity\Player;
+use App\Entity\Role;
 use App\Entity\Round;
 use App\Entity\Team;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -119,6 +121,45 @@ class AppFixtures extends Fixture
 
         $em->flush();
         $em->clear();
+
+        // -----------------------------Players And Roles------------------------------------------------------
+        //get all roles from lol
+        $req = [
+            "http" => [
+                "method" => "GET",
+            ]
+        ];
+        $context = stream_context_create($req);
+        $json = file_get_contents('https://lol.fandom.com/Special:CargoExport?tables=Players&&fields=count%28id%29%2C+Players.Role%2C&where=IsRetired+%3D+0&group+by=Players.Role&order+by=count%28id%29%2C%60cargo__Players%60.%60Role%60&limit=100&format=json');
+        $roles = json_decode($json, true);
+
+        foreach ($roles as $role){
+            $req = [
+                "http" => [
+                    "method" => "GET",
+                ]
+            ];
+            $context = stream_context_create($req);
+            $json = file_get_contents('https://lol.gamepedia.com/Special:CargoExport?tables=Players&&fields=Players.ID%2C+Players.Role%2C+Players.Team&where=IsRetired+%3D+0+and+Role+%3D+%22'. $role["Role"] .'%22&order+by=%60cargo__Players%60.%60ID%60%2C%60cargo__Players%60.%60Role%60%2C%60cargo__Players%60.%60Team%60&limit=5000&format=json');
+            $playersByRole = json_decode($json, true);
+
+            $newRole = new Role();
+            $newRole->setTitle($role["Role"]);
+            $em->persist($newRole);
+
+            //get players by role
+            foreach ($playersByRole as $player){
+
+                $newPlayer = new Player();
+                $newPlayer->setPlayerId($player["ID"]);
+                $newPlayer->addRole($newRole);
+                $newPlayer->setTeam($player["Team"]?$em->getRepository(Team::class)->findOneBy(["name" => $player["Team"]]): null);
+
+                $em->persist($newPlayer);
+            }
+            $em->flush();
+            $em->clear();
+        }
         // -----------------------------Meeting------------------------------------------------------
 
         set_time_limit(-1);
@@ -139,7 +180,6 @@ class AppFixtures extends Fixture
             $context = stream_context_create($req);
             $json = file_get_contents('https://api.sportsdata.io/v3/lol/scores/json/CompetitionDetails/'.$competition->getCompetitionId(), false, $context);
             $data = json_decode($json,true);
-
 
             foreach ($data["Games"] as $games){
 

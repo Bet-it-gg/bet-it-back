@@ -27,11 +27,6 @@ class Player
     private $playerName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $role;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $playerId;
@@ -46,9 +41,15 @@ class Player
      */
     private $playerStatistics;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="players")
+     */
+    private $roles;
+
     public function __construct()
     {
         $this->playerStatistics = new ArrayCollection();
+        $this->roles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -64,18 +65,6 @@ class Player
     public function setPlayerName(string $playerName): self
     {
         $this->playerName = $playerName;
-
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(?string $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }
@@ -129,6 +118,33 @@ class Player
             if ($playerStatistic->getPlayer() === $this) {
                 $playerStatistic->setPlayer(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+            $role->addPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->roles->removeElement($role)) {
+            $role->removePlayer($this);
         }
 
         return $this;
